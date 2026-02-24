@@ -5,8 +5,10 @@ import Home from './pages/Home';
 import AttackPaths from './pages/AttackPaths';
 import Assessment from './pages/Assessment';
 import About from './pages/About';
+import NotFound from './pages/NotFound';
 import KeyboardHelp from './components/KeyboardHelp';
 import useGlobalKeyboard from './hooks/useGlobalKeyboard';
+import usePageTitle from './hooks/usePageTitle';
 
 function AppContent() {
   const [showHelp, setShowHelp] = useState(false);
@@ -16,6 +18,7 @@ function AppContent() {
   }, []);
 
   useGlobalKeyboard({ onToggleHelp: toggleHelp });
+  usePageTitle();
 
   return (
     <div className="scanline-overlay noise-overlay min-h-screen bg-terminal-black">
@@ -25,6 +28,7 @@ function AppContent() {
           <Route path="/attack-paths" element={<AttackPaths />} />
           <Route path="/assessment" element={<Assessment />} />
           <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
       <KeyboardHelp isOpen={showHelp} onClose={() => setShowHelp(false)} />

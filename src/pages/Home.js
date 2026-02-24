@@ -300,7 +300,7 @@ function Home() {
               { label: 'ATTACK SCENARIOS', value: '5', color: 'text-terminal-red' },
               { label: 'ATTACK NODES', value: '32', color: 'text-terminal-green' },
               { label: 'MITRE TECHNIQUES', value: '18', color: 'text-terminal-cyan' },
-              { label: 'IAM CONTROLS', value: '32', color: 'text-terminal-amber' },
+              { label: 'ASSESSMENT Qs', value: '20', color: 'text-terminal-amber' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className={`font-display text-2xl ${stat.color} tracking-wider`}>
