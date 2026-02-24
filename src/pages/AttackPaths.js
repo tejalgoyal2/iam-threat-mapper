@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import attackScenarios from '../data/attackScenarios';
 import AttackGraph from '../components/AttackGraph';
 import NodeDetailPanel from '../components/NodeDetailPanel';
@@ -6,14 +7,22 @@ import ScenarioSelector from '../components/ScenarioSelector';
 import CaseStudyPanel from '../components/CaseStudyPanel';
 
 function AttackPaths() {
-  const [activeScenarioId, setActiveScenarioId] = useState(attackScenarios[0].id);
+  const [searchParams] = useSearchParams();
+  const scenarioParam = searchParams.get('scenario');
+  const initialScenario = scenarioParam && attackScenarios.find(s => s.id === scenarioParam)
+    ? scenarioParam
+    : attackScenarios[0].id;
+
+  const [activeScenarioId, setActiveScenarioId] = useState(initialScenario);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [highlightedFromAssessment, setHighlightedFromAssessment] = useState(!!scenarioParam);
 
   const activeScenario = attackScenarios.find((s) => s.id === activeScenarioId);
 
   const handleScenarioChange = (id) => {
     setActiveScenarioId(id);
     setSelectedNode(null);
+    setHighlightedFromAssessment(false);
   };
 
   const handleNodeSelect = useCallback((node) => {
@@ -112,6 +121,27 @@ function AttackPaths() {
               </span>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Assessment referral banner */}
+      {highlightedFromAssessment && (
+        <div className="mb-4 border border-terminal-amber/30 bg-terminal-amber/5 px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] tracking-widest text-terminal-amber uppercase">
+              from assessment
+            </span>
+            <span className="text-terminal-gray/30">|</span>
+            <span className="text-xs text-terminal-gray-light">
+              Your assessment results identified this scenario as a vulnerability. Explore the attack chain to understand your exposure.
+            </span>
+          </div>
+          <button
+            onClick={() => setHighlightedFromAssessment(false)}
+            className="text-terminal-amber/40 text-xs font-mono hover:text-terminal-amber transition-colors flex-shrink-0 ml-2"
+          >
+            [X]
+          </button>
         </div>
       )}
 

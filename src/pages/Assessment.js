@@ -443,12 +443,16 @@ function Assessment() {
                     </div>
 
                     {cat.attackScenarioIds && cat.attackScenarioIds.length > 0 && (
-                      <div className="flex items-center gap-2 mt-2">
+                      <div className="flex items-center gap-2 mt-2" onClick={(e) => e.stopPropagation()}>
                         <span className="text-[9px] text-terminal-gray/40 tracking-wider">DEFENDS AGAINST:</span>
                         {cat.attackScenarioIds.map((sid) => (
-                          <span key={sid} className="text-[9px] px-1.5 py-0.5 border border-terminal-red/20 text-terminal-red/60 tracking-wider">
-                            {sid.replace(/-/g, ' ')}
-                          </span>
+                          <Link
+                            key={sid}
+                            to={`/attack-paths?scenario=${sid}`}
+                            className="text-[9px] px-1.5 py-0.5 border border-terminal-red/20 text-terminal-red/60 tracking-wider hover:border-terminal-red/50 hover:text-terminal-red hover:bg-terminal-red/5 transition-colors"
+                          >
+                            {sid.replace(/-/g, ' ')} {'>>'}
+                          </Link>
                         ))}
                       </div>
                     )}
@@ -502,17 +506,31 @@ function Assessment() {
               .sort((a, b) => a.score - b.score)
               .slice(0, 3)
               .map((cat) => (
-                <div key={cat.id} className="mb-3 last:mb-0">
+                <div key={cat.id} className="mb-4 last:mb-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-xs text-terminal-red tracking-wider font-bold">{cat.label}</span>
                     <span className="text-[9px] text-terminal-gray/40">(scored {cat.score.toFixed(1)}/4.0)</span>
                   </div>
-                  <p className="text-[10px] text-terminal-gray-light leading-relaxed pl-2 border-l border-terminal-red/20">
+                  <p className="text-[10px] text-terminal-gray-light leading-relaxed pl-2 border-l border-terminal-red/20 mb-2">
                     {cat.score < 2
                       ? 'Critical gap — minimal controls in place. This area is directly exploitable by the attack scenarios listed above. Prioritize immediately.'
                       : 'Developing but inconsistent — controls exist but coverage gaps leave room for attackers. Focus on standardizing and enforcing consistently.'
                     }
                   </p>
+                  {cat.attackScenarioIds && cat.attackScenarioIds.length > 0 && (
+                    <div className="flex flex-wrap gap-2 pl-2">
+                      {cat.attackScenarioIds.map((sid) => (
+                        <Link
+                          key={sid}
+                          to={`/attack-paths?scenario=${sid}`}
+                          className="text-[9px] px-2 py-1 border border-terminal-red/30 text-terminal-red tracking-widest 
+                                     hover:bg-terminal-red/10 hover:border-terminal-red/60 transition-colors uppercase"
+                        >
+                          view exploit: {sid.replace(/-/g, ' ')} {'>>'}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
           </div>
