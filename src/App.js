@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useCallback } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import AttackPaths from './pages/AttackPaths';
+import Assessment from './pages/Assessment';
+import About from './pages/About';
+import KeyboardHelp from './components/KeyboardHelp';
+import useGlobalKeyboard from './hooks/useGlobalKeyboard';
+
+function AppContent() {
+  const [showHelp, setShowHelp] = useState(false);
+
+  const toggleHelp = useCallback(() => {
+    setShowHelp((prev) => !prev);
+  }, []);
+
+  useGlobalKeyboard({ onToggleHelp: toggleHelp });
+
+  return (
+    <div className="scanline-overlay noise-overlay min-h-screen bg-terminal-black">
+      <Layout onHelpToggle={toggleHelp}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/attack-paths" element={<AttackPaths />} />
+          <Route path="/assessment" element={<Assessment />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </Layout>
+      <KeyboardHelp isOpen={showHelp} onClose={() => setShowHelp(false)} />
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 
