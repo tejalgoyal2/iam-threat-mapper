@@ -11,24 +11,24 @@ const randHex = (len) =>
 const bootSequence = [
   { type: 'system', text: `BIOS POST... OK`, delay: 0 },
   { type: 'memory', text: `MEM 0x${randHex(8)}...0x${randHex(8)} — ALLOC ${Math.floor(Math.random() * 512) + 256}MB`, delay: 200 },
-  { type: 'divider', delay: 350 },
-  { type: 'init', text: 'INITIALIZING IAM THREAT MAPPER v1.0.0', delay: 450 },
-  { type: 'divider', delay: 600 },
-  { type: 'load', text: 'Loading identity attack surface database', delay: 700, progress: true },
-  { type: 'load', text: 'Loading MITRE ATT&CK technique mappings', delay: 1100, progress: true },
-  { type: 'error', text: `ERR: Connection timeout at 0x${randHex(4)} — retrying...`, delay: 1500 },
-  { type: 'retry', text: 'Reconnected. Resuming module load.', delay: 1850 },
-  { type: 'load', text: 'Calibrating maturity assessment engine', delay: 2100, progress: true },
-  { type: 'load', text: 'Mapping IAM control frameworks (NIST/CIS)', delay: 2450, progress: true },
-  { type: 'divider', delay: 2750 },
-  { type: 'success', text: '[OK] 5 scenarios // 32 nodes // 18 MITRE techniques', delay: 2850 },
-  { type: 'success', text: '[OK] All modules operational', delay: 3050 },
-  { type: 'divider', delay: 3200 },
-  { type: 'access', text: 'ACCESS GRANTED', delay: 3300 },
+  { type: 'divider', delay: 150 },
+  { type: 'init', text: 'INITIALIZING IAM THREAT MAPPER v1.0.0', delay: 200 },
+  { type: 'divider', delay: 300 },
+  { type: 'load', text: 'Loading identity attack surface database', delay: 350, progress: true },
+  { type: 'load', text: 'Loading MITRE ATT&CK technique mappings', delay: 550, progress: true },
+  { type: 'error', text: `ERR: Connection timeout at 0x${randHex(4)} — retrying...`, delay: 750 },
+  { type: 'retry', text: 'Reconnected. Resuming module load.', delay: 950 },
+  { type: 'load', text: 'Calibrating maturity assessment engine', delay: 1050, progress: true },
+  { type: 'load', text: 'Mapping IAM control frameworks (NIST/CIS)', delay: 1250, progress: true },
+  { type: 'divider', delay: 1400 },
+  { type: 'success', text: '[OK] 5 scenarios // 32 nodes // 18 MITRE techniques', delay: 1450 },
+  { type: 'success', text: '[OK] All modules operational', delay: 1550 },
+  { type: 'divider', delay: 1650 },
+  { type: 'access', text: 'ACCESS GRANTED', delay: 1700 },
 ];
 
 // Simulated progress bar component
-function ProgressBar({ duration = 350 }) {
+function ProgressBar({ duration = 180 }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -78,9 +78,9 @@ function Home() {
           const completeTimer = setTimeout(() => {
             setBootComplete(true);
             sessionStorage.setItem('iam-tm-booted', 'true');
-            const contentTimer = setTimeout(() => setShowContent(true), 300);
+            const contentTimer = setTimeout(() => setShowContent(true), 200);
             timers.push(contentTimer);
-          }, 600);
+          }, 350);
           timers.push(completeTimer);
         }
       }, line.delay);
@@ -124,7 +124,7 @@ function Home() {
           <div key={i} className="flex">
             <span className="text-terminal-gray/30 mr-3 select-none w-5">{lineNum}</span>
             <span className="text-terminal-gray-light">{line.text}...</span>
-            {line.progress && <ProgressBar duration={300} />}
+            {line.progress && <ProgressBar duration={160} />}
           </div>
         );
 
