@@ -1,4 +1,4 @@
-# IAM Threat Mapper — Identity Attack Surface Analysis
+# IAM Threat Mapper – Identity Attack Surface Analysis
 
 Interactive attack path visualization and IAM maturity assessment tool. Maps real-world identity-based attack chains to the MITRE ATT&CK framework.
 
